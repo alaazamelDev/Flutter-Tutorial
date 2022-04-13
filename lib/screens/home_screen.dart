@@ -20,6 +20,17 @@ class HomeScreen extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
         centerTitle: true,
         title: const Text('Home Screen'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              context.read<MovieBloc>().add(DeleteAllMovies());
+            },
+            icon: const Icon(
+              Icons.cancel_outlined,
+              color: Colors.white,
+            ),
+          )
+        ],
       ),
       body: BlocBuilder<MovieBloc, MovieState>(
         builder: (context, state) {
