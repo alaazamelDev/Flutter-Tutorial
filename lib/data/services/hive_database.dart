@@ -10,28 +10,28 @@ class HiveDatabase {
   }
 
   // Retrieve
-  Future<List<Movie>> getMovies(Box box) async {
+  List<Movie> getMovies(Box box) {
     List<Movie> movies = box.values.toList().cast<Movie>();
     return movies;
   }
 
   // Create
-  Future<void> addMovie(Box box, Movie movie) async {
+  void addMovie(Box box, Movie movie) async {
     await box.put(movie.id, movie);
   }
 
   // Update
-  Future<void> updateMovie(Box box, Movie movie) async {
+  void updateMovie(Box box, Movie movie) async {
     await box.put(movie.id, movie);
   }
 
   // Delete
-  Future<void> deleteMovie(Box box, Movie movie) async {
+  void deleteMovie(Box box, Movie movie) async {
     await box.delete(movie.id);
   }
 
   // Delete All
-  Future<void> deleteAllMovies(Box box) async {
+  void deleteAllMovies(Box box) async {
     await box.clear();
   }
 }

@@ -22,11 +22,11 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     Emitter<MovieState> emit,
   ) async {
     // ensure box is opened
-    Future<void>.delayed(const Duration(seconds: 1));
+    Future.delayed(const Duration(seconds: 1));
     Box<Movie> box = await hiveDatabase.openBox();
 
     // load movies as a list and emit them back
-    List<Movie> movies = await hiveDatabase.getMovies(box);
+    List<Movie> movies = hiveDatabase.getMovies(box);
     emit(MovieLoaded(movies: movies));
   }
 
@@ -34,10 +34,10 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     AddMovie event,
     Emitter<MovieState> emit,
   ) async {
+    Box<Movie> box = await hiveDatabase.openBox();
     if (state is MovieLoaded) {
-      Box<Movie> box = await hiveDatabase.openBox();
-      await hiveDatabase.addMovie(box, event.movie);
-      emit(MovieLoaded(movies: await hiveDatabase.getMovies(box)));
+      hiveDatabase.addMovie(box, event.movie);
+      emit(MovieLoaded(movies: hiveDatabase.getMovies(box)));
     }
   }
 
@@ -45,12 +45,12 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     UpdateMovie event,
     Emitter<MovieState> emit,
   ) async {
+    Box<Movie> box = await hiveDatabase.openBox();
     if (state is MovieLoaded) {
-      Box<Movie> box = await hiveDatabase.openBox();
-      await hiveDatabase.updateMovie(box, event.movie);
+      hiveDatabase.updateMovie(box, event.movie);
 
       // emit new version of data
-      emit(MovieLoaded(movies: await hiveDatabase.getMovies(box)));
+      emit(MovieLoaded(movies: hiveDatabase.getMovies(box)));
     }
   }
 
@@ -58,10 +58,10 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     DeleteMovie event,
     Emitter<MovieState> emit,
   ) async {
+    Box<Movie> box = await hiveDatabase.openBox();
     if (state is MovieLoaded) {
-      Box<Movie> box = await hiveDatabase.openBox();
-      await hiveDatabase.deleteMovie(box, event.movie);
-      emit(MovieLoaded(movies: await hiveDatabase.getMovies(box)));
+      hiveDatabase.deleteMovie(box, event.movie);
+      emit(MovieLoaded(movies: hiveDatabase.getMovies(box)));
     }
   }
 
@@ -69,10 +69,10 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     DeleteAllMovies event,
     Emitter<MovieState> emit,
   ) async {
+    Box<Movie> box = await hiveDatabase.openBox();
     if (state is MovieLoaded) {
-      Box<Movie> box = await hiveDatabase.openBox();
-      await hiveDatabase.deleteAllMovies(box);
-      emit(MovieLoaded(movies: await hiveDatabase.getMovies(box)));
+      hiveDatabase.deleteAllMovies(box);
+      emit(MovieLoaded(movies: hiveDatabase.getMovies(box)));
     }
   }
 }

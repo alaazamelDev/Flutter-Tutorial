@@ -20,7 +20,7 @@ class Movie {
     required this.id,
     required this.name,
     required this.imageUrl,
-    required this.addedToWatchLater,
+    this.addedToWatchLater = false,
   });
 
   Movie copyWith({

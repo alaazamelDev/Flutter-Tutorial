@@ -12,4 +12,7 @@ class MovieLoading extends MovieState {}
 class MovieLoaded extends MovieState {
   final List<Movie> movies;
   const MovieLoaded({required this.movies});
+
+  @override
+  List<Object> get props => [movies];
 }
